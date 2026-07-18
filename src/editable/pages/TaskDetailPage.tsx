@@ -1,6 +1,6 @@
 import Link from 'next/link'
 import { notFound } from 'next/navigation'
-import { ArrowLeft, ArrowUpRight, Bookmark, Building2, Camera, CheckCircle2, Download, ExternalLink, FileText, Globe2, Mail, MapPin, Phone, Star, Tag, UserRound } from 'lucide-react'
+import { ArrowLeft, ArrowUpRight, Bookmark, Building2, Camera, CheckCircle2, Download, ExternalLink, FileText, Globe2, Image as ImageIcon, Mail, MapPin, Phone, Star, Tag, UserRound } from 'lucide-react'
 import { buildPostMetadata, buildTaskMetadata } from '@/lib/seo'
 import { fetchArticleComments, fetchTaskPostBySlug, fetchTaskPosts } from '@/lib/task-data'
 import { getTaskConfig, SITE_CONFIG, type TaskKey } from '@/lib/site-config'
@@ -258,32 +258,34 @@ function ClassifiedDetail({ post, related }: { post: SitePost; related: SitePost
   const condition = getField(post, ['condition', 'availability', 'type'])
   const phone = getField(post, ['phone', 'telephone', 'mobile'])
   const email = getField(post, ['email'])
-  const website = getField(post, ['website', 'url'])
   return (
     <>
-      <section className="mx-auto grid max-w-[var(--editable-container)] gap-10 px-6 py-14 sm:py-20 lg:grid-cols-[360px_minmax(0,1fr)] lg:px-8">
-        <aside className="lg:sticky lg:top-24 lg:self-start">
+      <section className="border-b border-[var(--tk-line)] bg-[linear-gradient(110deg,#eef8fc_0%,#fff_55%,#BBE0EF_100%)]">
+        <div className="mx-auto max-w-[var(--editable-container)] px-6 py-10 lg:px-8">
           <BackLink task="classified" />
-          <div className="mt-7 rounded-[var(--tk-radius)] border border-[var(--tk-line)] bg-[var(--tk-surface)] p-7 shadow-[0_22px_60px_rgba(15,23,42,0.08)]">
-            <Kicker task="classified">Classified</Kicker>
-            <h1 className="editable-display mt-4 text-2xl font-semibold leading-tight tracking-[-0.02em]">{post.title}</h1>
-            <DetailMeta post={post} category={getField(post, ['category'])} />
-            <p className="editable-display mt-6 text-4xl font-semibold tracking-[-0.03em] text-[var(--tk-accent)]">{price || 'Open offer'}</p>
-            <div className="mt-6 space-y-2.5">
-              {condition ? <BadgeLine label="Condition" value={condition} /> : null}
-              {location ? <BadgeLine label="Location" value={location} /> : null}
+          <div className="mt-8 grid overflow-hidden border border-[#b7d5e2] bg-white shadow-[0_28px_80px_rgba(22,30,84,0.12)] lg:grid-cols-[1.15fr_.85fr]">
+            <div className="min-h-[360px] bg-[#e8f4f8] lg:min-h-[560px]">
+              {images[0] ? <img src={images[0]} alt={post.title} className="h-full w-full object-cover" /> : <div className="flex h-full min-h-[360px] items-center justify-center text-[#161E54]/35"><ImageIcon className="h-20 w-20" /></div>}
             </div>
-            <div className="mt-7 flex flex-wrap gap-3">
-              {phone ? <a href={`tel:${phone}`} className="inline-flex items-center gap-2 rounded-full bg-[var(--tk-accent)] px-5 py-2.5 text-sm font-semibold text-[var(--tk-on-accent)] transition hover:opacity-90"><Phone className="h-4 w-4" /> Call now</a> : null}
-              {email ? <a href={`mailto:${email}`} className="inline-flex items-center gap-2 rounded-full border border-[var(--tk-line)] px-5 py-2.5 text-sm font-semibold transition hover:border-[var(--tk-accent)]"><Mail className="h-4 w-4" /> Email</a> : null}
-            </div>
+            <aside className="flex flex-col justify-center p-7 sm:p-10">
+              <Kicker task="classified">Classified offer</Kicker>
+              <h1 className="editable-display mt-4 text-3xl font-extrabold leading-tight tracking-[-0.04em] sm:text-4xl">{post.title}</h1>
+              <DetailMeta post={post} category={getField(post, ['category'])} />
+              <p className="editable-display mt-7 text-4xl font-extrabold tracking-[-0.04em] text-[var(--tk-accent)]">{price || 'Open offer'}</p>
+              <div className="mt-6 grid gap-2.5 sm:grid-cols-2 lg:grid-cols-1 xl:grid-cols-2">
+                {condition ? <BadgeLine label="Condition" value={condition} /> : null}
+                {location ? <BadgeLine label="Location" value={location} /> : null}
+              </div>
+              <div className="mt-7 flex flex-wrap gap-3">
+                {phone ? <a href={`tel:${phone}`} className="inline-flex items-center gap-2 bg-[var(--tk-accent)] px-5 py-3 text-sm font-bold text-[var(--tk-on-accent)] transition hover:opacity-90"><Phone className="h-4 w-4" /> Call now</a> : null}
+                {email ? <a href={`mailto:${email}`} className="inline-flex items-center gap-2 border border-[var(--tk-accent)] px-5 py-3 text-sm font-bold transition hover:bg-[#BBE0EF]"><Mail className="h-4 w-4" /> Email</a> : null}
+              </div>
+            </aside>
           </div>
-        </aside>
-        <article className="min-w-0">
-          <ImageStrip images={images} label="Offer images" large />
-          <BodyContent post={post} />
-          <ContactAction website={website} phone={phone} email={email} />
-        </article>
+        </div>
+      </section>
+      <section className="mx-auto max-w-4xl px-6 py-14 lg:px-8">
+        <article className="min-w-0"><Kicker task="classified">Description and details</Kicker><BodyContent post={post} /><ImageStrip images={images.slice(1)} label="More offer images" large /></article>
       </section>
       <RelatedStrip task="classified" related={related} />
     </>
@@ -391,27 +393,17 @@ function ProfileDetail({ post, related }: { post: SitePost; related: SitePost[] 
   const email = getField(post, ['email'])
   return (
     <>
-      <section className="mx-auto max-w-[var(--editable-container)] px-6 py-14 sm:py-20 lg:px-8">
-        <BackLink task="profile" />
-        <div className="mt-8 grid gap-10 lg:grid-cols-[360px_minmax(0,1fr)]">
-          <aside className="lg:sticky lg:top-24 lg:self-start">
-            <div className="rounded-[var(--tk-radius)] border border-[var(--tk-line)] bg-[var(--tk-surface)] p-8 text-center shadow-[0_22px_60px_rgba(15,23,42,0.08)]">
-              <div className="mx-auto flex h-32 w-32 items-center justify-center overflow-hidden rounded-full border border-[var(--tk-line)] bg-[var(--tk-raised)]">
+      <section className="bg-[linear-gradient(110deg,#161E54_0%,#25306d_55%,#4e8eaa_100%)] text-white [--tk-accent:#BBE0EF] [--tk-line:rgba(255,255,255,0.28)] [--tk-muted:rgba(255,255,255,0.72)] [--tk-on-accent:#161E54] [--tk-text:#ffffff]">
+        <div className="mx-auto max-w-[var(--editable-container)] px-6 py-10 lg:px-8"><BackLink task="profile" />
+          <div className="mt-10 grid items-center gap-10 pb-8 lg:grid-cols-[300px_minmax(0,1fr)]">
+            <div className="flex h-64 w-64 items-center justify-center overflow-hidden rounded-full border-[10px] border-white/15 bg-[#BBE0EF] shadow-2xl sm:h-72 sm:w-72">
                 {images[0] ? <img src={images[0]} alt="" className="h-full w-full object-cover" /> : <UserRound className="h-14 w-14 text-[var(--tk-muted)]" />}
-              </div>
-              <h1 className="editable-display mt-6 text-2xl font-semibold tracking-[-0.02em]">{post.title}</h1>
-              {role ? <p className="mt-2 text-xs font-medium uppercase tracking-[0.16em] text-[var(--tk-accent)]">{role}</p> : null}
-              <DetailMeta post={post} center />
-              <ContactAction website={website} email={email} bare />
             </div>
-          </aside>
-          <article className="min-w-0">
-            <Kicker task="profile">Profile</Kicker>
-            <BodyContent post={post} />
-            <ImageStrip images={images.slice(1)} label="Gallery" />
-          </article>
+            <div><p className="text-xs font-bold uppercase tracking-[0.24em] text-[#BBE0EF]">Professional profile</p><h1 className="editable-display mt-4 text-4xl font-extrabold leading-[1.02] tracking-[-0.05em] sm:text-6xl">{post.title}</h1>{role ? <p className="mt-5 text-sm font-bold uppercase tracking-[0.18em] text-[#BBE0EF]">{role}</p> : null}<div className="mt-6 text-white/70"><DetailMeta post={post} /></div><div className="mt-7"><ContactAction website={website} email={email} bare /></div></div>
+          </div>
         </div>
       </section>
+      <section className="mx-auto max-w-5xl px-6 py-14 sm:py-20"><div className="grid gap-10 lg:grid-cols-[220px_minmax(0,1fr)]"><aside><Kicker task="profile">About this profile</Kicker><p className="mt-4 text-sm leading-7 text-[var(--tk-muted)]">Background, experience, services, and professional information.</p></aside><article className="min-w-0"><BodyContent post={post} /><ImageStrip images={images.slice(1)} label="Gallery" /></article></div></section>
       <RelatedStrip task="profile" related={related} />
     </>
   )
@@ -567,4 +559,3 @@ function RelatedCard({ task, post, grid = false }: { task: TaskKey; post: SitePo
     </Link>
   )
 }
-
