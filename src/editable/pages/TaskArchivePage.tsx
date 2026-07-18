@@ -110,15 +110,15 @@ export function TaskArchiveView({ task, posts, pagination, category, basePath }:
   return (
     <EditableSiteShell>
       <main style={taskThemeStyle(task)} className="min-h-screen bg-[var(--tk-bg)] text-[var(--tk-text)]">
-        <header className="relative overflow-hidden border-b border-[var(--tk-line)]">
+        <header className={`relative overflow-hidden border-b border-[var(--tk-line)] ${task === 'classified' || task === 'profile' ? 'bg-[linear-gradient(110deg,#eef8fc_0%,#fff_55%,#BBE0EF_100%)]' : ''}`}>
           <div className="pointer-events-none absolute inset-x-0 -top-40 h-96 bg-[radial-gradient(60%_60%_at_50%_0%,var(--tk-glow),transparent_70%)]" />
-          <div className="relative mx-auto max-w-[var(--editable-container)] px-6 py-20 sm:py-28 lg:px-8">
+          <div className={`relative mx-auto max-w-[var(--editable-container)] px-6 lg:px-8 ${task === 'classified' || task === 'profile' ? 'py-16 sm:py-20' : 'py-20 sm:py-28'}`}>
             <div className="flex items-center gap-3 text-[11px] font-medium uppercase tracking-[0.34em] text-[var(--tk-accent)]">
               <span>{theme.kicker}</span>
               <span className="h-1 w-1 rounded-full bg-[var(--tk-accent)] opacity-50" />
               <span className="text-[var(--tk-muted)]">{label}</span>
             </div>
-            <h1 className="editable-display mt-6 max-w-3xl text-balance text-[2.5rem] font-semibold leading-[1.06] tracking-[-0.03em] sm:text-5xl lg:text-6xl">
+            <h1 className="editable-display mt-6 max-w-4xl text-balance text-[2.5rem] font-extrabold leading-[1.02] tracking-[-0.05em] sm:text-5xl lg:text-6xl">
               {voice?.headline || `Browse ${label}`}
             </h1>
             <p className="mt-6 max-w-2xl text-lg leading-8 text-[var(--tk-muted)]">{voice?.description || theme.note}</p>
@@ -281,21 +281,24 @@ function ListingArchiveCard({ post, href }: { post: SitePost; href: string }) {
 }
 
 function ClassifiedArchiveCard({ post, href }: { post: SitePost; href: string }) {
+  const image = getImage(post)
   const price = getField(post, ['price', 'amount', 'budget'])
   const location = getField(post, ['location', 'address', 'city'])
   const condition = getField(post, ['condition', 'type', 'availability'])
   return (
-    <Link href={href} className={`${cardBase} flex flex-col p-6 sm:p-7`}>
-      <div className="flex items-start justify-between gap-4">
-        <span className="editable-display text-3xl font-semibold tracking-[-0.03em] text-[var(--tk-accent)]">{price || 'Open offer'}</span>
-        {condition ? <span className="rounded-full bg-[var(--tk-accent-soft)] px-3 py-1 text-[11px] font-medium uppercase tracking-[0.14em] text-[var(--tk-accent)]">{condition}</span> : null}
+    <Link href={href} className={`${cardBase} overflow-hidden rounded-none`}>
+      <div className="relative aspect-[4/3] overflow-hidden bg-[var(--tk-raised)]">
+        <img src={image} alt={post.title} className="h-full w-full object-cover transition duration-700 group-hover:scale-105" />
+        {condition ? <span className="absolute left-4 top-4 bg-[#BBE0EF] px-3 py-1.5 text-[10px] font-bold uppercase tracking-[0.14em] text-[#161E54]">{condition}</span> : null}
       </div>
-      <h2 className="editable-display mt-5 text-xl font-semibold leading-snug tracking-[-0.02em]">{post.title}</h2>
-      <RatingLine post={post} />
-      <p className="mt-3 line-clamp-3 flex-1 text-sm leading-7 text-[var(--tk-muted)]">{getSummary(post)}</p>
-      <div className="mt-6 flex items-center justify-between border-t border-[var(--tk-line)] pt-4 text-xs font-medium text-[var(--tk-muted)]">
-        <span className="inline-flex items-center gap-1.5">{location ? <><MapPin className="h-3.5 w-3.5" /> {location}</> : 'Details inside'}</span>
-        <ArrowUpRight className="h-4 w-4 text-[var(--tk-accent)] transition group-hover:translate-x-0.5" />
+      <div className="flex min-h-[250px] flex-col p-6">
+        <span className="editable-display text-2xl font-extrabold tracking-[-0.03em] text-[var(--tk-accent)]">{price || 'Open offer'}</span>
+        <h2 className="editable-display mt-3 text-xl font-extrabold leading-snug tracking-[-0.02em]">{post.title}</h2>
+        <p className="mt-3 line-clamp-3 flex-1 text-sm leading-7 text-[var(--tk-muted)]">{getSummary(post) || 'Open this classified to review the full offer and contact details.'}</p>
+        <div className="mt-5 flex items-center justify-between border-t border-[var(--tk-line)] pt-4 text-xs font-semibold text-[var(--tk-muted)]">
+          <span className="inline-flex items-center gap-1.5">{location ? <><MapPin className="h-3.5 w-3.5" /> {location}</> : 'View details'}</span>
+          <ArrowUpRight className="h-4 w-4 text-[var(--tk-accent)] transition group-hover:translate-x-0.5" />
+        </div>
       </div>
     </Link>
   )
@@ -354,14 +357,17 @@ function ProfileArchiveCard({ post, href }: { post: SitePost; href: string }) {
   const avatar = getImages(post)[0]
   const role = getField(post, ['role', 'designation', 'company', 'location'])
   return (
-    <Link href={href} className={`${cardBase} flex flex-col items-center p-7 text-center`}>
-      <div className="flex h-24 w-24 items-center justify-center overflow-hidden rounded-full border border-[var(--tk-line)] bg-[var(--tk-raised)]">
+    <Link href={href} className={`${cardBase} overflow-hidden rounded-none bg-white`}>
+      <div className="h-24 bg-[#161E54]" />
+      <div className="relative flex flex-col items-center px-7 pb-7 text-center">
+      <div className="-mt-14 flex h-28 w-28 items-center justify-center overflow-hidden rounded-full border-[6px] border-white bg-[#BBE0EF] shadow-lg">
         {avatar ? <img src={avatar} alt="" className="h-full w-full object-cover" /> : <UserRound className="h-10 w-10 text-[var(--tk-muted)]" />}
       </div>
-      <h2 className="editable-display mt-5 text-lg font-semibold tracking-[-0.02em]">{post.title}</h2>
-      {role ? <p className="mt-1.5 text-xs font-medium uppercase tracking-[0.16em] text-[var(--tk-accent)]">{role}</p> : null}
-      <RatingLine post={post} center />
-      <p className="mt-3 line-clamp-2 text-sm leading-6 text-[var(--tk-muted)]">{getSummary(post)}</p>
+      <h2 className="editable-display mt-5 text-xl font-extrabold tracking-[-0.02em]">{post.title}</h2>
+      {role ? <p className="mt-2 text-xs font-bold uppercase tracking-[0.16em] text-[var(--tk-accent)]">{role}</p> : null}
+      <p className="mt-4 line-clamp-3 min-h-[72px] text-sm leading-6 text-[var(--tk-muted)]">{getSummary(post) || 'Open this profile to learn more about experience, services, and ways to connect.'}</p>
+      <span className="mt-5 inline-flex items-center gap-2 bg-[#BBE0EF] px-4 py-2 text-xs font-bold text-[#161E54]">View profile <ArrowUpRight className="h-4 w-4" /></span>
+      </div>
     </Link>
   )
 }
