@@ -19,12 +19,12 @@ export const taskPageVoices = {
     chips: ['Editorial pacing', 'Topic filters', 'Long-read friendly'],
   },
   classified: {
-    eyebrow: 'Notice board',
-    headline: 'Fast-moving classifieds, offers, and time-sensitive posts.',
-    description: 'Classified content should feel quick to scan, practical, and action-oriented with less editorial decoration.',
+    eyebrow: 'Classified marketplace',
+    headline: 'Find useful offers for everyday needs.',
+    description: 'Browse products, services, rentals, jobs, and local opportunities with clear details and direct ways to respond.',
     filterLabel: 'Filter classified category',
     secondaryNote: 'Prioritize urgency, short summaries, and direct browsing.',
-    chips: ['Fast scan', 'Offers', 'Action cues'],
+    chips: ['Products for sale', 'Services', 'Jobs and rentals'],
   },
   sbm: {
     eyebrow: 'Saved resources',
@@ -35,12 +35,12 @@ export const taskPageVoices = {
     chips: ['Collections', 'Resources', 'Reference flow'],
   },
   profile: {
-    eyebrow: 'People and profiles',
-    headline: 'Profiles with identity, trust, and reputation cues.',
-    description: 'Profile pages should make people, brands, and entities feel discoverable rather than buried in a generic feed.',
+    eyebrow: 'Professional directory',
+    headline: 'Discover people and organizations worth knowing.',
+    description: 'Explore clear professional profiles designed to communicate experience, credibility, and useful ways to connect.',
     filterLabel: 'Filter profile category',
     secondaryNote: 'Make identity and credibility visible before the grid begins.',
-    chips: ['Identity first', 'Trust cues', 'Creator/business cards'],
+    chips: ['Professional identity', 'Clear credentials', 'Direct connections'],
   },
   pdf: {
     eyebrow: 'Document library',

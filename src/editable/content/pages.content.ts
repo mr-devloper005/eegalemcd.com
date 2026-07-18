@@ -3,19 +3,19 @@ import { slot4BrandConfig } from '@/editable/theme/brand.config'
 export const pagesContent = {
   home: {
     metadata: {
-      title: 'Stories, visuals, and discoverable content',
-      description: 'Explore articles, images, listings, and curated posts through a cleaner reading-first experience.',
-      openGraphTitle: 'Stories, visuals, and discoverable content',
-      openGraphDescription: 'Discover articles, visual posts, and connected content through a calmer reading-first experience.',
-      keywords: ['story platform', 'article site', 'visual content', 'content discovery'],
+      title: 'Classified offers, services, rentals, and jobs',
+      description: 'Explore classified products, services, rentals, jobs, and useful local opportunities.',
+      openGraphTitle: 'Classified offers and local opportunities',
+      openGraphDescription: 'Discover classified products, services, rentals, jobs, and opportunities in one practical marketplace.',
+      keywords: ['classified marketplace', 'local services', 'items for sale', 'jobs and rentals'],
     },
     hero: {
-      badge: 'Latest stories and visuals',
-      title: ['A thoughtful home for', 'stories, visuals, and discovery.'],
-      description: 'Explore fresh articles, image-led posts, and discoverable content across the platform through a calmer and clearer browsing experience.',
-      primaryCta: { label: 'Read latest stories', href: '/article' },
-      secondaryCta: { label: 'Explore visuals', href: '/image' },
-      searchPlaceholder: 'Search stories, visuals, listings, and more',
+      badge: 'Latest classified opportunities',
+      title: ['A practical home for', 'offers, services, and local finds.'],
+      description: 'Explore fresh classified products, services, rentals, jobs, and opportunities through a clear marketplace experience.',
+      primaryCta: { label: 'Browse classifieds', href: '/classified' },
+      secondaryCta: { label: 'Search offers', href: '/search' },
+      searchPlaceholder: 'Search products, services, rentals, and jobs',
       focusLabel: 'Focus',
       featureCardBadge: 'latest cover rotation',
       featureCardTitle: 'Latest posts shape the visual identity of the homepage.',
@@ -23,7 +23,7 @@ export const pagesContent = {
     },
     intro: {
       badge: 'About the platform',
-      title: 'Built for reading, browsing, and connecting different kinds of content.',
+      title: 'Built for browsing and connecting with useful classified offers.',
       paragraphs: [
         'This site brings together article-style reading, visual browsing, and structured discovery so visitors can move naturally between different content types.',
         'Instead of separating stories, visuals, and supporting resources into disconnected surfaces, the platform keeps them connected in one place with consistent navigation and easier exploration.',
